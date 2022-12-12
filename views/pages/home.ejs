@@ -1,5 +1,6 @@
 
 <div class="container">
+    <% if(page == "1" || page == null){ %> <!-- เช็คถ้า page = 1 หรือ ไม่มีข้อมูล post -->
     <!--
     <center><p class="main_page">หน้าหลัก</p></center>
     <hr>
@@ -22,6 +23,18 @@
         <div class="swiper-button-next"></div> 
     </div>
 
+    <% } %>
+    <% if(announcement_post !== null){ %> <!-- เเละถ้ามีข้อมูล post อยู่ -->
+        <% for(let i = 0; i < announcement_post.length; i++){ %>
+            <% //console.log(String(new Date(parseInt(announcement_post[i].timestamp))).trim().split(/ +/g)) %>
+            <p>Post ID : <%= announcement_post[i].post_id %></p>
+            <p>Title : <%= announcement_post[i].title %></p>
+            <p>Description : <%= announcement_post[i].description %></p>
+            <p>Content : <%= announcement_post[i].content %></p>
+            <p>Image : <%= announcement_post[i].image %></p>
+            <p>Timestamp : <%= (String(new Date(parseInt(announcement_post[i].timestamp))).trim().split(/ +/g)) %></p>
+        <% } %>
+    <% } %>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
