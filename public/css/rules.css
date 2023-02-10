@@ -1,0 +1,42 @@
+.rules_div {
+    margin-bottom: 50px;
+}
+.rules {
+    max-width: 40%;
+    height: auto;
+    box-shadow: 9px 10px 11px 4px rgba(0, 0, 0, 0.13);
+}
+
+@media (max-width: 900px){
+    .rules {
+        max-width: 100%;
+        margin-bottom: 10px;
+    }
+}
+
+/* Animetion */
+.scale-up-center {
+	-webkit-animation: scale-up-center 0.5s both;
+	        animation: scale-up-center 0.5s both;
+}
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+@keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.2);
+              transform: scale(0.2);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+}
+  

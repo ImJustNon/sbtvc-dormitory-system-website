@@ -4,7 +4,7 @@
 body{
     padding: 0;
     margin: 0;
-    background: url(../assets/images/login_cover.jpg)no-repeat;
+    background: url(../assets/images/login_cover.jpg)no-repeat center center fixed;
     background-size: auto;
 }
 
@@ -87,3 +87,32 @@ body{
     background-color: #e40000;
     font-size: 15px;
 }
+
+/* Animetion */
+
+.scale-up-center {
+	-webkit-animation: scale-up-center 0.5s both;
+	        animation: scale-up-center 0.5s both;
+}
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.3);
+              transform: scale(0.3);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  @keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.3);
+              transform: scale(0.3);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  
+  

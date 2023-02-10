@@ -1,4 +1,5 @@
 <% const { 
+    id,
     prefix,
     name,
     lastname,
@@ -46,13 +47,14 @@
             <span>เดินทางโดย : <%= traveled_by %></span>
             <p class="leave_come"><i class="fa-solid fa-person-breastfeeding"></i> ข้อมูลผู้ปกครอง</p>
             <span>ชื่อผู้ปกครอง : <%= parent_name %> <%= parent_lastname %></span><br> <!-- ชื่อ + นามสกุล -->
-            <span>ชื่อพ่องชื่อแม่งมึงไงไอ้ควย : <%= parent_phone_number %></span>
+            <span>เบอร์โทรศัพท์ผู้ปกครอง : <%= parent_phone_number %></span>
             <p class="timestamp"><i class="fa-regular fa-clock"></i> ส่งฟอร์มเมื่อ : <%= timestamp %></p>
             <!-- สำหรับมือถือ -->
             <img class="photo_mobile" align="right" src="<%= uploadfile %>" alt="<%= filename %>">
 
-            <form id="back_in_form" method="post">
+            <form id="back_in_form" action="/dorm/api/entry-leave-system-update" method="get">
                 <input type="hidden" name="back_in" value="true">
+                <input type="hidden" name="id" value="<%= id %>">
                 <button class="btn btn-success btn-lg" type="button" id="back_in_btn">กลับมาเเล้ว</button>
             </form>
         </div>

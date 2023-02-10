@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container slide-top">
 
 	<!-- เริ่มฟอร์ม ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------->
 	<form class="row g-3 needs-validation" method="post" id="form1" name="form1" onsubmit="handleFormSubmit(this)">
@@ -142,6 +142,12 @@
 		document.getElementById("parent_name").value = "<%= form_data.parent_name %>";
 		document.getElementById("parent_lastname").value = "<%= form_data.parent_lastname %>";
 		document.getElementById("parent_phone_number").value = "<%= form_data.parent_phone_number %>";
+		Swal.fire({
+  			position: 'top',
+  			icon: 'success',
+  			showConfirmButton: false,
+  			timer: 800,
+		});
 	}
 	</script>
 <% } %>

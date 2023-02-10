@@ -24,6 +24,16 @@ const db = require("./configs/config.js");
 
 const app = express();
 
+// handlers loader
+fs.readdirSync("./handlers").forEach(async files => {
+    try {
+        require(`./handlers/${files}`);
+        console.log(`[Handler] Loaded : ${files}`);
+    }
+    catch (e){
+        console.log(`[Handler] Load Fail: ${files}`);
+    }
+});
 // router setup
 fs.readdirSync("./routers").forEach(async files => {
     let router = require(`./routers/${files}`);

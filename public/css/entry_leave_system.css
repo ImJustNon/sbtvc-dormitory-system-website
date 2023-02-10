@@ -90,3 +90,58 @@ body {
 .auto_insert_btn {
   font-size: 15px;
 }
+
+/* Animetion */
+
+.slide-top {
+	-webkit-animation: slide-top 0.5s both;
+	        animation: slide-top 0.5s both;
+}
+@-webkit-keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(800px);
+            transform: translateY(800px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+@keyframes slide-top {
+  0% {
+    -webkit-transform: translateY(800px);
+            transform: translateY(800px);
+  }
+  100% {
+    -webkit-transform: translateY(0);
+            transform: translateY(0);
+  }
+}
+
+
+/*
+.scale-up-center {
+	-webkit-animation: scale-up-center 0.5s both;
+	        animation: scale-up-center 0.5s both;
+}
+@-webkit-keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  @keyframes scale-up-center {
+    0% {
+      -webkit-transform: scale(0.5);
+              transform: scale(0.5);
+    }
+    100% {
+      -webkit-transform: scale(1);
+              transform: scale(1);
+    }
+  }
+  */

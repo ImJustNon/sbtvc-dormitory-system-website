@@ -1,0 +1,55 @@
+<div class="container">
+    <form class="row g-3 needs-validation" method="post" id="bug_report" name="bug_report" onsubmit="handleFormSubmit(this)">
+        <center>
+            <span style="font-size: 1.5em; color: rgb(0, 0, 0);"><i class="fa-solid fa-screwdriver-wrench"></i></span>
+            <div class="col-md-4">
+                <label for="name" class="form-label">ปัญหา</label>
+                <input type="text" class="form-control" name="title" id="title" required>
+            </div><br>
+            <span style="font-size: 1.5em; color: rgb(0, 0, 0);"><i class="fa-solid fa-info"></i></span>
+            <div class="col-md-4">
+                <label for="name" class="form-label">ข้อมูลเพิ่มเติม</label>
+                <textarea type="text" class="form-control" name="content" id="content" rows="5" required></textarea>
+            </div><br>
+            <hr>
+            <div class="col-md-3">
+                <label for="leave_date" class="form-label">โดย</label>
+                <input type="text" class="form-control" name="report_by" id="report_by" required>  
+            </div><br>
+            <div class="col-md-2">
+                <label for="leave_date" class="form-label">วันที่เเจ้ง</label>
+                <input type="date" class="form-control" name="report_date" id="report_date" required>  
+            </div>
+            <br>
+            <br>
+            <br>
+            <!-- Submit btn -->
+            <div class="col-12">
+                <center><button class="btn btn-success btn-lg" type="submit" id="submit_btn"><i class="fa-solid fa-paper-plane"></i>&nbsp&nbspส่งเเจ้งปัญหา</button></center>
+            </div>
+        </center>
+    </form>
+</div>
+
+
+<style>
+    hr {
+        background-size: 4px;
+        border-top: 2px solid #FFF0F2;
+        border-color: #FFF0F2;
+        max-width: 80%;
+        margin-left: auto;
+        margin-right: auto;
+        height: 2px;
+    }
+    .page-title {
+        margin-top: 20px;
+        color: white;
+        font-size: 20px;
+    }
+    @media (max-width : 900px) {
+        .page-title {
+            font-size: 15px;
+        }
+    }
+</style>   

@@ -67,7 +67,8 @@ function onError(error) {
 async function onListening() {
     let addr = server.address();
     let bind = typeof addr === "string" ? "pipe " + addr : "port " + addr.port;
-    console.log("[App] Listening on " + bind);
+    console.log("[App] Listening on : " + bind);
+    console.log(`[App] Localhost : http://127.0.0.1:${String(config.app.port)}`);
     if(config.app.auto_open){
       await open(`http://127.0.0.1:${config.app.port}/`);
     }

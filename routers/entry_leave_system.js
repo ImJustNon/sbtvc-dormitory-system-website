@@ -53,35 +53,42 @@ router.get('/dorm/entry-leave-system', async(req, res) =>{
             }
         } 
         else { //ถ้ามีการส่งฟอร์มเเล้ว
+            let latestData = await query({
+                sql: `SELECT * FROM entry_leave_system_admin WHERE student_id='${checkIP.rows[0].username}'`,
+            });
+            await latestData.rows.sort((a, b) => b.date - a.date);
             return res.render("index",{
                 title: "Authorization-Form",
                 form_info: {
-                    prefix: check_form_data.rows[0].prefix,
-                    name: check_form_data.rows[0].student_name,
-                    lastname: check_form_data.rows[0].student_lastname,
-                    dorm_number: check_form_data.rows[0].dorm_number,
-                    room_number: check_form_data.rows[0].room_number,
-                    student_phone_number: check_form_data.rows[0].student_phone_number,
-                    reg_type: check_form_data.rows[0].reg_type,
-                    leave_date: check_form_data.rows[0].leave_date,
-                    leave_time: check_form_data.rows[0].leave_time,
-                    leave_for: check_form_data.rows[0].leave_for,
-                    come_date: check_form_data.rows[0].come_date,
-                    come_time: check_form_data.rows[0].come_time,
-                    total_leave_date: check_form_data.rows[0].total_leave_date,
-                    traveled_by: check_form_data.rows[0].traveled_by,
-                    parent_name: check_form_data.rows[0].parent_name,
-                    parent_lastname: check_form_data.rows[0].parent_lastname,
-                    parent_phone_number: check_form_data.rows[0].parent_phone_number,
-                    filename: check_form_data.rows[0].filename,
-                    uploadfile: check_form_data.rows[0].uploadfile,
-                    timestamp: check_form_data.rows[0].date,
+                    id: latestData.rows[0].id,
+                    prefix: latestData.rows[0].prefix,
+                    name: latestData.rows[0].student_name,
+                    lastname: latestData.rows[0].student_lastname,
+                    dorm_number: latestData.rows[0].dorm_number,
+                    room_number: latestData.rows[0].room_number,
+                    student_phone_number: latestData.rows[0].student_phone_number,
+                    reg_type: latestData.rows[0].reg_type,
+                    leave_date: latestData.rows[0].leave_date,
+                    leave_time: latestData.rows[0].leave_time,
+                    leave_for: latestData.rows[0].leave_for,
+                    come_date: latestData.rows[0].come_date,
+                    come_time: latestData.rows[0].come_time,
+                    total_leave_date: latestData.rows[0].total_leave_date,
+                    traveled_by: latestData.rows[0].traveled_by,
+                    parent_name: latestData.rows[0].parent_name,
+                    parent_lastname: latestData.rows[0].parent_lastname,
+                    parent_phone_number: latestData.rows[0].parent_phone_number,
+                    filename: latestData.rows[0].filename,
+                    uploadfile: latestData.rows[0].uploadfile,
+                    timestamp: latestData.rows[0].date,
                 },
             });
         }
     }
 });
 
+
+// ========================================== รับข้อม฿ล Form =================================================================
 router.post('/dorm/entry-leave-system', urlencoded, async(req, res) =>{
     const sended_form_date = new Date().getTime(); // รับ วัน-เวลา ในรูปเเบบตัวเลข
     const get_User_Data = await query({
@@ -118,6 +125,7 @@ router.post('/dorm/entry-leave-system', urlencoded, async(req, res) =>{
     const { back_in } = req.body ?? {};  // ตัวเเปรยืนยันกลับเข้าหอเเล้ว (สำหรับหน้่า Authorization Form)
 
     if(typeof back_in === "undefined"){ // คือไม่พบตัวเเปรยืนยันกลับเข้าหอ
+
         await query({
             sql: `INSERT INTO entry_leave_system_form_data
 (
@@ -169,7 +177,33 @@ back_in
 '${get_User_Data.rows[0].username}',
 FALSE
 )`,
-}).then(async() =>{ //============================================================== บันทึกข้อมูลล่าสุดเพื่อใช้ในการกกรอกข้อมูลอัตโนมัติ ==============================================================
+}).then(async() =>{ 
+    //============================================================== บันทึกข้อมูลสำหระบ Admin ==============================================================
+    await entry_leave_system_data_admin({
+        prefix: prefix, 
+        student_name: name, 
+        student_lastname: lastname, 
+        dorm_number: dorm_number, 
+        room_number: room_number, 
+        student_phone_number: student_phone_number, 
+        reg_type: reg_type, 
+        leave_date: leave_date, 
+        leave_time: leave_time, 
+        leave_for: leave_for, 
+        come_date: come_date, 
+        come_time: come_time, 
+        total_leave_date: total_leave_date, 
+        traveled_by: traveled_by, 
+        parent_name: parent_name, 
+        parent_lastname: parent_lastname, 
+        parent_phone_number: parent_phone_number, 
+        uploadfile: uploadfile, 
+        filename: filename, 
+        date: sended_form_date, 
+        student_id: String(get_User_Data.rows[0].username), 
+        back_in: false,
+    });
+    //============================================================== บันทึกข้อมูลล่าสุดเพื่อใช้ในการกกรอกข้อมูลอัตโนมัติ ==============================================================
     // บันทึกกรอกข้อมูลอัตโนมัติ
     const get_old_form_data = await query({
         sql: `SELECT * FROM auto_insert_form WHERE student_number='${get_User_Data.rows[0].username}'`,
@@ -221,7 +255,6 @@ else { // ถ้าพบค่าตัวเเปรยืนยันกล�
         // sql: `UPDATE entry_leave_system_form_data SET back_in=TRUE WHERE student_id='${get_User_Data.rows[0].username}'`, 
     });
 }
-
     await res.redirect("/dorm/home");
     
 });
@@ -264,4 +297,15 @@ update_date
 '${date}'
 )`,
 });
+}
+
+
+
+// for admin
+
+async function entry_leave_system_data_admin({prefix, student_name, student_lastname, dorm_number, room_number, student_phone_number, reg_type, leave_date, leave_time, leave_for, come_date, come_time, total_leave_date, traveled_by, parent_name, parent_lastname, parent_phone_number, uploadfile, filename, date, student_id, back_in}) {
+    await query({
+        sql: `INSERT INTO entry_leave_system_admin(prefix,student_name,student_lastname,dorm_number,room_number,student_phone_number,reg_type,leave_date,leave_time,leave_for,come_date,come_time,total_leave_date,traveled_by,parent_name,parent_lastname,parent_phone_number,uploadfile,filename,date,student_id,back_in) VALUES 
+('${prefix}','${student_name}','${student_lastname}','${dorm_number}','${room_number}','${student_phone_number}','${reg_type}','${leave_date}','${leave_time}','${leave_for}','${come_date}','${come_time}','${total_leave_date}','${traveled_by}','${parent_name}','${parent_lastname}','${parent_phone_number}','${uploadfile}','${filename}','${date}','${student_id}',${back_in})`,
+    });
 }

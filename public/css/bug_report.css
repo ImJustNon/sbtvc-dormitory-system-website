@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Prompt&display=swap');
+
+* {
+    font-family: 'Prompt', sans-serif;
+}
+
+body {
+    min-height: 100vh;
+    /* background-image: linear-gradient(135deg, rgba(255, 0, 0, 0.76) 0%, rgba(255, 200, 0, 1) 100%); */
+    background-image: radial-gradient(ellipse, rgba(255, 255, 255, 0.98) 0%, rgba(133, 128, 130, 1) 100%);
+    /* background: url("/assets/images/cover.png")no-repeat; */
+    background-size: cover;
+    background-position: center;
+}
+

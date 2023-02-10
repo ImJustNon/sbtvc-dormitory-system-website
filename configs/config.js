@@ -22,6 +22,12 @@ module.exports = {
                 useUnifiedTopology: true,
             },
         },
+        mySQL: {
+            host: '127.0.0.1',
+            user: 'root',
+            port: 3306,
+            database: 'sbtvc_dormitory_system_test_database',
+        },
     },
     app: {
         port: 8000,

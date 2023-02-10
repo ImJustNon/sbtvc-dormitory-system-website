@@ -1,41 +1,138 @@
+<% if(banner !== null){ %>
+    <div class="container">
+        <% if(page == "1" || page == null){ %> <!-- เช็คถ้า page = 1 หรือ ไม่มีข้อมูล post -->
+        <!--
+        <center><p class="main_page">หน้าหลัก</p></center>
+        <hr>
+        <br>
+        -->
+        <!-- Slider main container -->
+        <!-- ==================== Bannner =================== -->
+        <div class="swiper slide-bottom">
+            <!-- Additional required wrapper -->
+            <div class="swiper-wrapper">
+                <!-- Slides -->
+                <% for(let i = 0; i < banner.length; i++){ %> <!-- โหลด Banner ออกมาให้หมด -->
+                    <div class="swiper-slide"><img src="<%= banner[i].link %>"></div>
+                <% } %>
+                
+            </div>
+            <!-- If we need pagination -->
+            <div class="swiper-pagination"></div>
+        
+            <!-- If we need navigation buttons -->
+            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next"></div> 
+        </div>
 
-<div class="container">
-    <% if(page == "1" || page == null){ %> <!-- เช็คถ้า page = 1 หรือ ไม่มีข้อมูล post -->
-    <!--
-    <center><p class="main_page">หน้าหลัก</p></center>
+        <% } %>
+    </div>
+<% } %>
+
+<% if(page <= 1) { %>
+    <center><p class="page-title">ข่าวประชาสัมพันธ์ในหอพัก</p></center>
     <hr>
     <br>
-    -->
-    <!-- Slider main container -->
-    <div class="swiper">
-        <!-- Additional required wrapper -->
-        <div class="swiper-wrapper">
-            <!-- Slides -->
-            <div class="swiper-slide"><img src="/assets/images/banner/banner1.png"></div>
-            <div class="swiper-slide"><img src="/assets/images/banner/banner2.png"></div>
-            <div class="swiper-slide"><img src="/assets/images/banner/banner3.png"></div>
-        </div>
-        <!-- If we need pagination -->
-        <div class="swiper-pagination"></div>
-    
-        <!-- If we need navigation buttons -->
-        <div class="swiper-button-prev"></div>
-        <div class="swiper-button-next"></div> 
-    </div>
+<% } %>
 
-    <% } %>
-    <% if(announcement_post !== null){ %> <!-- เเละถ้ามีข้อมูล post อยู่ -->
+<% if(announcement_post !== null){ %> <!-- เเละถ้ามีข้อมูล post อยู่ -->
         <% for(let i = 0; i < announcement_post.length; i++){ %>
-            <% //console.log(String(new Date(parseInt(announcement_post[i].timestamp))).trim().split(/ +/g)) %>
-            <p>Post ID : <%= announcement_post[i].post_id %></p>
-            <p>Title : <%= announcement_post[i].title %></p>
-            <p>Description : <%= announcement_post[i].description %></p>
-            <p>Content : <%= announcement_post[i].content %></p>
-            <p>Image : <%= announcement_post[i].image %></p>
-            <p>Timestamp : <%= (String(new Date(parseInt(announcement_post[i].timestamp))).trim().split(/ +/g)) %></p>
+            <section>
+                <div class="container">
+                    <div class="card <%= announcement_post[i].text_color %> <%= announcement_post[i].color %> mb-12 border-dark border-2 rounded-3 post-box scale-up-center">
+                        <h5 class="card-header prompt post_title"><%= announcement_post[i].title %></h5>
+                        <div class="card-body bg-white">
+
+                            <% if(announcement_post[i].content !== null) { %> <!-- ถ้า content ไม่เท่ากับ null -->
+                                <p><%= announcement_post[i].content %></p> <!-- เเสดงเนื้อหาโพส -->
+                            <% } %>
+
+                            <% if(announcement_post[i].image !== null) { %> <!-- ถ้ามีการอัปโหลดรูปภาพ หรือ ไม่เท่ากัย null -->
+                                <% let image_array = announcement_post[i].image.trim().split(/ +/g) %> <!-- สร้าง array ของ link ภาพ -->
+                                <% image_array.forEach((link) =>{ %> <!-- ดึง link ภาพเเต่ล่ะอัน -->
+                                    <img src="<%= link %>" style="max-width:100%;height:auto;margin:5px;">
+                                <% }) %>
+                            <% } %>
+
+                            <% if(announcement_post[i].description !== null) { %>
+                                <p class="post_description"><%= announcement_post[i].description %></p>
+                            <% } %>
+
+                            <p class="post_footer"><i class="fa-solid fa-clock"></i> โพสเมื่อ : <%= new Date(parseInt(announcement_post[i].timestamp)) %></p>
+                            <p class="post_footer"><i class="fa-solid fa-hashtag"></i> Post ID : <%= announcement_post[i].post_id %></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
         <% } %>
-    <% } %>
-</div>
+        <br>
+        <div class="container">
+            <div class="row">
+                <nav aria-label="Page navigation">
+                    <ul class="pagination justify-content-center">
+
+                        <% let check_min_page = parseInt(page) - 1 %>
+                        <% let check_max_page = parseInt(page) + 1 %>
+                        <% let disable_previous %>
+                        <% let disable_next %>
+
+                        <% if(check_min_page <= 0){ %> <!-- เช็คถ้าหน้าต่อไป มีค่าเป็น 0 หรือน้อยกว่า -->
+                            <% disable_previous = "disabled" %>
+                        <% } %>
+                        <% if(check_max_page >= parseFloat(total_page) + 1){ %> <!-- เช็คถ้าหน้าต่อไป มีค่ามากกว่า หน้าทั้งหมด -->
+                            <% disable_next = "disabled" %>
+                        <% } %>
+                        <li class="page-item <%= disable_previous %>"> <!-- หน้าก่อนหน้า -->
+                            <a class="page-link" href="/dorm/home?page=<%= parseInt(page) - 1 %>">&nbsp;<i class="fa-solid fa-angles-left"></i>&nbsp;</a>
+                        </li>
+                        <li class="page-item">
+                            <button class="btn btn-light text-primary" type="button" id="select_page_btn">&nbsp;&nbsp;<%= page %> / <%=parseInt(total_page) + 1%>&nbsp;&nbsp;</button>
+                        </li>
+                        <li class="page-item <%= disable_next %>"> <!-- หน้าต่อไป -->
+                            <a class="page-link" href="/dorm/home?page=<%= parseInt(page) + 1 %>">&nbsp;<i class="fa-solid fa-angles-right">&nbsp;</i></a>
+                        </li>
+
+                    </ul>
+                </nav>
+            </div>
+        </div>
+<% } %>
 
 <script src="https://cdn.jsdelivr.net/npm/swiper@8/swiper-bundle.min.js"></script>
 <script type="text/javascript" src="/js/slide_banner.js"></script>
+
+<!-- Select Page Button -->
+<script type="text/javascript">
+document.getElementById('select_page_btn').onclick = function() {
+    Swal.fire({
+        input: 'text',
+        confirmButtonText: 'OK',
+    }).then((result) => {
+        if(result.isConfirmed && result.value){
+            if(!isNaN(result.value)){
+                if(parseInt(result.value) < 1 || parseInt(result.value) > (parseInt("<%= total_page %>") + 1)){ //ไม่พบหน้าที่เลือก
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'ไม่พบหน้าที่คุณต้องการ',
+                        showConfirmButton: false,
+                        timer: 1000,
+                    });
+                }
+                else {
+                    location.href = "/dorm/home?page=" + String(result.value);
+                }
+            }
+        }
+    });
+}
+</script>
+
+
+<!--
+     <p>Post ID : <%= //announcement_post[i].post_id %></p>
+            <p>Title : <%= //announcement_post[i].title %></p>
+            <p>Description : <%= //announcement_post[i].description %></p>
+            <p>Content : <%= //announcement_post[i].content %></p>
+            <p>Image : <%= //announcement_post[i].image %></p>
+            <p>Timestamp : <%= //(String(new Date(parseInt(announcement_post[i].timestamp))).trim().split(/ +/g)) %></p>
+-->

@@ -6,6 +6,7 @@ const bodyParser = require('body-parser');
 const urlencoded = bodyParser.urlencoded({ extended: true });
 const { get_ip } = require("../utils/get_Ip.js");
 const { get_date } = require("../utils/get_Date.js");
+const { app } = require('../configs/config.js');
 
 router.get('/dorm/login', async(req, res) =>{
     //ถ้ามีประวัติการล็อกอิน ให้เข้า Home ได้เลย
@@ -45,7 +46,7 @@ router.post('/dorm/login', urlencoded, async(req, res) =>{
             await query({
                 sql: `INSERT INTO login_ip(ip,username,expire_date) VALUES('${await get_ip(req)}','${username}','${new Date().setDate(new Date().getDate() + 1)}')`,
             });
-            setTimeout(() => res.redirect("/dorm/home"), 2 * 1000);
+            setTimeout(() => res.redirect("/dorm/home"), 0.5 * 1000);
         }
         else{// password ไม่ตรง
             res.render('login',{
@@ -55,5 +56,6 @@ router.post('/dorm/login', urlencoded, async(req, res) =>{
         }
     }
 });
+
 
 module.exports= router;
